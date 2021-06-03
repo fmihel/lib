@@ -1,4 +1,3 @@
-
 export default {
     random(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -191,8 +190,64 @@ export default {
         return false;
     },
 
+    /** сравнение двух значений,
+    *  если типы совпадают, то строгое сравнение
+    *  если нет, то для строки и числа делается привидение (для null и undefined тоже)
+    *  пустая строка НЕ равна 0 !
+    *  в остальных случаях false
+    */
+    eq(val1, val2) {
+        let a = val1;
+        let b = val2;
+
+        let typeA = typeof (a);
+        let typeB = typeof (b);
+
+        if (a === null) typeA = 'null';
+        if (b === null) typeB = 'null';
+
+        if ((typeA === 'number') && (Number.isNaN(a))) {
+            typeA = 'NaN';
+        }
+        if ((typeB === 'number') && (Number.isNaN(b))) {
+            typeB = 'NaN';
+        }
+        if (typeA === 'boolean') {
+            a = a ? 1 : 0;
+            typeA = 'number';
+        }
+        if (typeB === 'boolean') {
+            b = b ? 1 : 0;
+            typeB = 'number';
+        }
+
+        if (typeA === typeB) {
+            if ((typeA === 'NaN') && (typeB === 'NaN')) {
+                return true;
+            }
+            return (a === b);
+        }
+        const ts = (type1, type2) => {
+            if (typeA === type1 && typeB === type2) {
+                return true;
+            }
+            if (typeA === type2 && typeB === type1) {
+                const c = b; b = a; a = c;
+                const t = typeA; typeA = typeB; typeB = t;
+                return true;
+            }
+            return false;
+        };
+        const isn = (val, type) => type === 'NaN' || val === undefined || val === null;
+
+        if (ts('string', 'number')) {
+            return (Number(a) ? (parseFloat(a) === b) : false);
+        }
+        if (isn(a, typeA) && isn(b, typeB)) return true;
+
+        return false;
+    },
 
 };
-
 
 // export default ut;

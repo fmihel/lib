@@ -32,7 +32,6 @@ describe('ut', () => {
         chai.expect((res >= 10 && res <= 100)).to.equal(true);
     });
 
-
     it('random_str(10)', () => {
         const res = ut.random_str(10);
         // console.info('random_str(10)', res);
@@ -147,7 +146,6 @@ describe('ut', () => {
         });
     });
 
-
     describe('translate', () => {
         it('translate(1,0,10,0,100) = 10', () => {
             const res = ut.translate(1, 0, 10, 0, 100);
@@ -228,6 +226,105 @@ describe('ut', () => {
             const res = ut.toBool(false);
             const ok = false;
             chai.expect(res).to.equal(ok);
+        });
+    });
+
+    describe('eq', () => {
+        it('eq(1,1) = true', () => {
+            const a = 1;
+            const b = 1;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq("1",1) = true', () => {
+            const a = '1';
+            const b = 1;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq(" 1",1) = true', () => {
+            const a = ' 1';
+            const b = 1;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq("10.000",10) = true', () => {
+            const a = '10.000';
+            const b = 10;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq("A",10.000) = FALSE', () => {
+            const a = 'A';
+            const b = 10.000;
+            chai.expect(ut.eq(a, b)).to.equal(false);
+        });
+        it('eq("A",0) = FALSE', () => {
+            const a = 'A';
+            const b = 10.000;
+            chai.expect(ut.eq(a, b)).to.equal(false);
+        });
+
+        it('eq("string","string") = true', () => {
+            const a = 'string';
+            const b = 'string';
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq(1,"01") = true', () => {
+            const a = '01';
+            const b = 1;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq(10.01,"10.01") = true', () => {
+            const a = 10.01;
+            const b = '10.01';
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq("","     ") = FALSE', () => {
+            const a = '';
+            const b = '    ';
+            chai.expect(ut.eq(a, b)).to.equal(false);
+        });
+        it('eq(1,true) = true', () => {
+            const a = 1;
+            const b = true;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq(null,undefined) = true', () => {
+            const a = null;
+            const b = undefined;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq(null,false) = FALSE', () => {
+            const a = null;
+            const b = false;
+            chai.expect(ut.eq(a, b)).to.equal(false);
+        });
+        it('eq(null,0) = FALSE', () => {
+            const a = null;
+            const b = 0;
+            chai.expect(ut.eq(a, b)).to.equal(false);
+        });
+        it('eq(null,"") = FALSE', () => {
+            const a = null;
+            const b = '';
+            chai.expect(ut.eq(a, b)).to.equal(false);
+        });
+        it('eq(NaN,NaN) = true', () => {
+            const a = Number('a');
+            const b = Number('a');
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq(NaN,undefined) = true', () => {
+            const a = Number('a');
+            const b = undefined;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq(0,false) = true', () => {
+            const a = 0;
+            const b = false;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq("0",false) = FALSE', () => {
+            const a = '0';
+            const b = false;
+            chai.expect(ut.eq(a, b)).to.equal(false);
         });
     });
 });
