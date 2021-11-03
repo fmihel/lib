@@ -192,9 +192,9 @@ describe('ut', () => {
             const ok = false;
             chai.expect(res).to.equal(ok);
         });
-        it('toBool(1) = false', () => {
-            const res = ut.toBool(undefined);
-            const ok = false;
+        it('toBool(1) = true', () => {
+            const res = ut.toBool(1);
+            const ok = true;
             chai.expect(res).to.equal(ok);
         });
         it('toBool(null) = false', () => {
@@ -212,8 +212,8 @@ describe('ut', () => {
             const ok = true;
             chai.expect(res).to.equal(ok);
         });
-        it('toBool(" true") = true', () => {
-            const res = ut.toBool(' true');
+        it('toBool("    true") = true', () => {
+            const res = ut.toBool('   true');
             const ok = true;
             chai.expect(res).to.equal(ok);
         });
@@ -224,6 +224,26 @@ describe('ut', () => {
         });
         it('toBool(false) = false', () => {
             const res = ut.toBool(false);
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+        it('toBool("false") = false', () => {
+            const res = ut.toBool('false');
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+        it('toBool("0") = false', () => {
+            const res = ut.toBool('0');
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+        it('toBool("") = false', () => {
+            const res = ut.toBool('');
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+        it('toBool(NaN) = false', () => {
+            const res = ut.toBool(Number('a'));
             const ok = false;
             chai.expect(res).to.equal(ok);
         });
@@ -260,7 +280,6 @@ describe('ut', () => {
             const b = 10.000;
             chai.expect(ut.eq(a, b)).to.equal(false);
         });
-
         it('eq("string","string") = true', () => {
             const a = 'string';
             const b = 'string';
@@ -281,10 +300,20 @@ describe('ut', () => {
             const b = '    ';
             chai.expect(ut.eq(a, b)).to.equal(false);
         });
+        it('eq("",0) = FALSE', () => {
+            const a = '';
+            const b = 0;
+            chai.expect(ut.eq(a, b)).to.equal(false);
+        });
         it('eq(1,true) = true', () => {
             const a = 1;
             const b = true;
             chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq(10,true) = FALSE', () => {
+            const a = 10;
+            const b = true;
+            chai.expect(ut.eq(a, b)).to.equal(false);
         });
         it('eq(null,undefined) = true', () => {
             const a = null;
@@ -321,10 +350,101 @@ describe('ut', () => {
             const b = false;
             chai.expect(ut.eq(a, b)).to.equal(true);
         });
-        it('eq("0",false) = FALSE', () => {
+        it('eq("0",false) = true (for ver: >=2.0.0)', () => {
             const a = '0';
             const b = false;
-            chai.expect(ut.eq(a, b)).to.equal(false);
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq("0  ",false) = true (for ver: >=2.0.0)', () => {
+            const a = '0  ';
+            const b = false;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq("1",true) = true', () => {
+            const a = '1';
+            const b = true;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+        it('eq("0",0) = true', () => {
+            const a = '0';
+            const b = 0;
+            chai.expect(ut.eq(a, b)).to.equal(true);
+        });
+    });
+    describe('True', () => {
+        it('True(true) = true', () => {
+            chai.expect(ut.True(true)).to.equal(true);
+        });
+        it('True(false) = false', () => {
+            const res = ut.True(false);
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+
+        it('True(1) = true', () => {
+            const res = ut.True(1);
+            const ok = true;
+            chai.expect(res).to.equal(ok);
+        });
+        it('True(0) = false', () => {
+            const res = ut.True(0);
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+
+        it('True("true") = true', () => {
+            chai.expect(ut.True('true')).to.equal(true);
+        });
+        it('True("false") = false', () => {
+            const res = ut.True('false');
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+        it('True("1") = true', () => {
+            const res = ut.True('1');
+            const ok = true;
+            chai.expect(res).to.equal(ok);
+        });
+        it('True("0") = false', () => {
+            const res = ut.True('0');
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+        it('True(null) = false', () => {
+            const res = ut.True(null);
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+        it('True(undefined) = false', () => {
+            const res = ut.True(undefined);
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+        it('True("1 ") = true', () => {
+            const res = ut.True('1 ');
+            const ok = true;
+            chai.expect(res).to.equal(ok);
+        });
+        it('True("    true ") = true', () => {
+            const res = ut.True('   true');
+            const ok = true;
+            chai.expect(res).to.equal(ok);
+        });
+        it('True("lkdw") = false', () => {
+            const res = ut.True('lkdw');
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+
+        it('True("") = false', () => {
+            const res = ut.True('');
+            const ok = false;
+            chai.expect(res).to.equal(ok);
+        });
+        it('True(NaN) = false', () => {
+            const res = ut.True(Number('a'));
+            const ok = false;
+            chai.expect(res).to.equal(ok);
         });
     });
 });

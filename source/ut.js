@@ -1,4 +1,4 @@
-export default {
+const ut = {
     random(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
@@ -177,10 +177,10 @@ export default {
      * toBool(false) = false
     */
     toBool(value) {
-        if (value === true || value === 1) {
+        if (value === true || value === 1 || value === '1' || value === 'true') {
             return true;
         }
-        if (value === false || value === 0 || value === null || value === undefined) {
+        if (value === false || value === 0 || value === null || value === undefined || value === '0' || value === 'false') {
             return false;
         }
         const str = (`${value}`).trim();
@@ -241,13 +241,21 @@ export default {
         const isn = (val, type) => type === 'NaN' || val === undefined || val === null;
 
         if (ts('string', 'number')) {
-            return (Number(a) ? (parseFloat(a) === b) : false);
+            return (parseFloat(a) === b);
         }
         if (isn(a, typeA) && isn(b, typeB)) return true;
 
         return false;
     },
+    /** приведение к bool и сравнение с true */
+    True(val) {
+        return ut.toBool(val);
+    },
+    /** приведение к bool и сравнение с false */
+    False(val) {
+        return !ut.toBool(val);
+    },
 
 };
 
-// export default ut;
+export default ut;
